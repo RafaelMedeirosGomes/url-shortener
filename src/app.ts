@@ -1,11 +1,13 @@
 import express from "express";
+
 import errorHandler from "./handlers/error.handler";
+import router from "./api/v1";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/ping", (_req, res) => res.status(200).send("pong"));
+app.use("/", router);
 
 app.use(errorHandler);
 
