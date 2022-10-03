@@ -8,7 +8,7 @@
     "prelint": "editorconfig-checker",
     "lint": "eslint .",
     "test": "jest --watch",
-    "test:coverage": "jest --coverage --watch"
+    "test:coverage": "jest --coverage --watchAll"
   },
   "keywords": [],
   "author": "Rafael Medeiros Gomes",
