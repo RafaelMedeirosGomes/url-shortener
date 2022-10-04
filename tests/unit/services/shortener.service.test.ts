@@ -30,4 +30,28 @@ describe("shortener service tests", () => {
       expect(id.startsWith(givenPrefix)).toBe(true);
     });
   });
+
+  describe("when generateId is called multiple times", () => {
+    /*
+     * This simplistic test is more for documentation purposes.
+     * From the short-unique-id lib specs we can see that this test
+     * will probably never find any collision ever,
+     * and brute forcing a collision is a really unreliable and costly strategy
+     */
+    const numberOfTimesCalled = 100000;
+    it(
+      `should be able to create at least ${numberOfTimesCalled}` +
+        "unique ids without collisions",
+      () => {
+        const set = new Set();
+
+        for (let index = 0; index < numberOfTimesCalled; index++) {
+          const id = generateId();
+          set.add(id);
+        }
+
+        expect(set.size).toBe(numberOfTimesCalled);
+      }
+    );
+  });
 });
