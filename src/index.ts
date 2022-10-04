@@ -10,16 +10,17 @@ async function main(): Promise<void> {
     console.log(`Server online on port ${SERVER_PORT}`);
   });
 
-  process.on("SIGINT", () => {
+  process.on("SIGINT", async () => {
     server.close(() => {
       console.log("\nStopping server");
     });
-    connection
-      .then(async (Mongoose) => {
-        return await Mongoose.disconnect();
-      })
-      .then(() => console.log("Disconnected from db"))
-      .catch(console.error);
+    const Mongoose = await connection;
+    try {
+      await Mongoose.disconnect();
+      console.log("Disconnected from db");
+    } catch (error) {
+      console.error(error);
+    }
   });
 }
 
