@@ -38,7 +38,7 @@ describe("API v1 tests", () => {
 
         expect(response.status).toBe(201);
         expect(response.body.shortUrl).toBeDefined();
-        expect(response.body.expireAt).toBeDefined();
+        expect(response.body.expiresAt).toBeDefined();
 
         const document = await UrlModel.findOne({
           shortUrl: response.body.shortUrl,

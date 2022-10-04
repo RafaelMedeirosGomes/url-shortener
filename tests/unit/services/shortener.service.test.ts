@@ -1,23 +1,23 @@
-import generateId from "../../../src/services/shortener.service";
+import ShortenerService from "../../../src/services/shortener.service";
 
 describe("shortener service tests", () => {
-  describe("when generateId is called", () => {
+  describe("when generateUrl is called", () => {
     const DEFAULT_PREFIX = "www.us.com/";
 
     it("should create a string", () => {
-      const id = generateId();
+      const id = ShortenerService.generateUrl();
 
       expect(typeof id).toBe("string");
     });
 
     it("with correct length", () => {
-      const id = generateId();
+      const id = ShortenerService.generateUrl();
 
       expect(id.length).toBeLessThanOrEqual(22);
     });
 
     it("with default prefix", () => {
-      const id = generateId();
+      const id = ShortenerService.generateUrl();
 
       expect(id.startsWith(DEFAULT_PREFIX)).toBe(true);
     });
@@ -25,13 +25,13 @@ describe("shortener service tests", () => {
     it("or with given prefix", () => {
       const givenPrefix = "www.br.com/";
 
-      const id = generateId(givenPrefix);
+      const id = ShortenerService.generateUrl(givenPrefix);
 
       expect(id.startsWith(givenPrefix)).toBe(true);
     });
   });
 
-  describe("when generateId is called multiple times", () => {
+  describe("when generateUrl is called multiple times", () => {
     /*
      * This simplistic test is more for documentation purposes.
      * From the short-unique-id lib specs we can see that this test
@@ -46,7 +46,7 @@ describe("shortener service tests", () => {
         const set = new Set();
 
         for (let index = 0; index < numberOfTimesCalled; index++) {
-          const id = generateId();
+          const id = ShortenerService.generateUrl();
           set.add(id);
         }
 

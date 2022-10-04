@@ -6,12 +6,12 @@ const urlSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export interface UrlDTO {
+export interface UrlDAO {
   longUrl: string;
   shortUrl: string;
   createdAt: Date;
 }
 
-const UrlModel = model<UrlDTO>("URL", urlSchema);
+const UrlModel = model<UrlDAO>("URL", urlSchema);
 
 export default UrlModel;
