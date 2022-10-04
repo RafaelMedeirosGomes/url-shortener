@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import errorHandler from "../../src/handlers/error.handler";
+import errorHandler from "../../../src/handlers/error.handler";
 
 describe("error handler tests", () => {
   let req: {};
