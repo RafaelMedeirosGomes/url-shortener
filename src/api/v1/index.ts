@@ -1,9 +1,18 @@
-import express from "express";
-import urlHandler from "../../handlers/url.handler";
+import { Router } from "express";
+import UrlHandler from "../../handlers/url.handler";
 
-const router = express.Router();
+export default class API {
+  private readonly _router: Router;
+  private readonly urlHandler: UrlHandler;
 
-router.post("/create", urlHandler.createUrlHandler);
-router.get("/ping", (_req, res) => res.status(200).send("pong"));
+  constructor(router: Router, urlHandler: UrlHandler) {
+    this._router = router;
+    this.urlHandler = urlHandler;
+    this._router.post("/create", this.urlHandler.createUrl);
+    this._router.get("/ping", (_req, res) => res.status(200).send("pong"));
+  }
 
-export default router;
+  public get router(): Router {
+    return this._router;
+  }
+}

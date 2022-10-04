@@ -1,8 +1,8 @@
 import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from "mongoose";
 
 import app from "../../src/app";
-import mongoose from "mongoose";
 import UrlModel from "../../src/database/url.model.mongoose";
 
 describe("API v1 tests", () => {
