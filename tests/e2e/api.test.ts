@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import UrlModel from "../../src/database/url.model.mongoose";
 
 describe("API v1 tests", () => {
+  const API_URL = "/api/v1";
   let mongod: MongoMemoryServer;
 
   beforeAll(async () => {
@@ -20,7 +21,7 @@ describe("API v1 tests", () => {
 
   describe("/ping route", () => {
     it("when a GET request is sent should respond with pong", async () => {
-      const response = await request(app).get("/ping");
+      const response = await request(app).get(`${API_URL}/ping`);
 
       expect(response.status).toBe(200);
       expect(response.text).toBe("pong");
@@ -31,7 +32,7 @@ describe("API v1 tests", () => {
     const LONG_URL = "https://github.com/RafaelMedeirosGomes/url-shortener";
     describe("when a POST request is sent should", () => {
       it("create a resource", async () => {
-        const response = await request(app).post("/create").send({
+        const response = await request(app).post(`${API_URL}/create`).send({
           url: LONG_URL,
         });
 
