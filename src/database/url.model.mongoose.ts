@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const UrlSchema = new Schema({
+const urlSchema = new Schema({
   longUrl: { type: String, required: true, maxlength: 2048 },
   shortUrl: { type: String, required: true, maxlength: 22 },
   createdAt: { type: Date, default: Date.now },
@@ -12,6 +12,6 @@ export interface UrlDTO {
   createdAt: Date;
 }
 
-const UrlModel = model<UrlDTO>("URL", UrlSchema);
+const UrlModel = model<UrlDTO>("URL", urlSchema);
 
 export default UrlModel;
