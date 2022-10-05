@@ -8,7 +8,9 @@
     "prelint": "editorconfig-checker",
     "lint": "eslint .",
     "test": "jest --watch",
-    "test:coverage": "jest --coverage --watchAll"
+    "test:coverage": "jest --coverage --watchAll",
+    "prestart": "npm run build",
+    "start": "pm2 start ecosystem.config.json"
   },
   "keywords": [],
   "author": "Rafael Medeiros Gomes",
@@ -35,6 +37,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "mongoose": "^6.6.3",
+    "pm2": "^5.2.0",
     "short-unique-id": "^4.4.4"
   }
 }
