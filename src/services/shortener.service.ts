@@ -9,9 +9,20 @@ export default class ShortenerService implements IShortenerService {
     this.idGenerator = idGenerator;
   }
 
+  private daysToMilliseconds(days: number): number {
+    return days * 24 * 60 * 60 * 1000;
+  }
+
   public async getLongUrl(uuid: string): Promise<string | null> {
     const entity = await UrlModel.findOne({ uuid });
-    return entity !== null ? entity.longUrl : entity;
+    if (entity === null) return null;
+    const diffTime = Date.now() - entity.createdAt.valueOf();
+    const expiryTimeInDays = process.env.EXPIRY_TIME ?? "1";
+    const expiryTime = this.daysToMilliseconds(parseInt(expiryTimeInDays, 10));
+    if (diffTime > expiryTime) {
+      return null;
+    }
+    return entity.longUrl;
   }
 
   public generateID(): string {
@@ -21,16 +32,17 @@ export default class ShortenerService implements IShortenerService {
 
   public async createNewEntity(url: string): Promise<UrlDTO> {
     const prefix = process.env.URL_PREFIX ?? "www.us.com/";
-    const uuid = this.generateID();
+    const generatedId = this.generateID();
 
-    const {
-      uuid: shortUrl,
-      longUrl,
-      createdAt,
-    } = await UrlModel.create({
-      uuid,
+    const { uuid, longUrl, createdAt } = await UrlModel.create({
+      uuid: generatedId,
       longUrl: url,
     });
-    return { shortUrl: `${prefix}${shortUrl}`, longUrl, expiresAt: createdAt };
+
+    const expiryTimeInDays = process.env.EXPIRY_TIME ?? "1";
+    const expiryTime = this.daysToMilliseconds(parseInt(expiryTimeInDays, 10));
+    const expiresAt = new Date(createdAt.valueOf() + expiryTime);
+
+    return { shortUrl: `${prefix}${uuid}`, longUrl, expiresAt };
   }
 }

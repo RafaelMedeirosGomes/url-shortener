@@ -12,6 +12,7 @@ describe("error handler tests", () => {
   const UUID = "12345678901";
   const LONG_URL = "https://github.com/RafaelMedeirosGomes/url-shortener";
   const EXPIRES_AT = new Date("10/04/2022");
+  const TEST_ERROR = new Error("Error generated for testing purposes");
   beforeAll(() => {
     req = {
       body: { url: LONG_URL },
@@ -20,13 +21,16 @@ describe("error handler tests", () => {
       status: jest.fn(() => res),
       json: jest.fn(),
     };
-    next = (): void => {};
+    next = jest.fn();
     serviceMock = {
       generateID: jest.fn().mockImplementation(function (): string {
         return UUID;
       }),
       createNewEntity: jest
         .fn()
+        .mockImplementationOnce(async function (): Promise<never> {
+          throw TEST_ERROR;
+        })
         .mockImplementation(async function (): Promise<UrlDTO> {
           return {
             longUrl: LONG_URL,
@@ -34,12 +38,24 @@ describe("error handler tests", () => {
             expiresAt: EXPIRES_AT,
           };
         }),
-      getLongUrl: jest.fn(),
+      getLongUrl: jest.fn().mockImplementation(function (): string {
+        return LONG_URL;
+      }),
     };
     urlHandler = new UrlHandler(serviceMock);
   });
 
   describe("given a request with url in body", () => {
+    it("when service throws an error should call next", async () => {
+      await urlHandler.createUrl(
+        req as Request,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(next).toHaveBeenCalledWith(TEST_ERROR);
+    });
+
     it("when called should call res with correct values", async () => {
       await urlHandler.createUrl(
         req as Request,
@@ -58,8 +74,8 @@ describe("error handler tests", () => {
 
   describe("given a request without body", () => {
     const emptyReq = { body: {} };
-    it("when called should call res.status with error code", () => {
-      urlHandler.createUrl(
+    it("when called should call res.status with error code", async () => {
+      await urlHandler.createUrl(
         emptyReq as Request,
         res as Response,
         next as NextFunction
