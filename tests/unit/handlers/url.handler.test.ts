@@ -34,6 +34,7 @@ describe("error handler tests", () => {
             expiresAt: EXPIRES_AT,
           };
         }),
+      getLongUrl: jest.fn(),
     };
     urlHandler = new UrlHandler(serviceMock);
   });
