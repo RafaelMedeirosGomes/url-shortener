@@ -1,7 +1,9 @@
 import { UrlDTO } from "../handlers/url.handler";
 
 export default interface IShortenerService {
-  generateShortUrl: (prefix?: string) => string;
+  generateID: () => string;
 
   createNewEntity: (url: string) => Promise<UrlDTO>;
+
+  getLongUrl: (uuid: string) => Promise<string | null>;
 }
