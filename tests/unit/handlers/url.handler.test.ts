@@ -39,7 +39,7 @@ describe("error handler tests", () => {
   });
 
   describe("given a request with url in body", () => {
-    it("when called should call service and Response with correct values", async () => {
+    it("when called should call res with correct values", async () => {
       await urlHandler.createUrl(
         req as Request,
         res as Response,
