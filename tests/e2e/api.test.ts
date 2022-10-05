@@ -40,8 +40,9 @@ describe("API v1 tests", () => {
         expect(response.body.shortUrl).toBeDefined();
         expect(response.body.expiresAt).toBeDefined();
 
+        const uuid = response.body.shortUrl.split("/")[1];
         const document = await UrlModel.findOne({
-          shortUrl: response.body.shortUrl,
+          uuid,
         });
 
         expect(document).toBeDefined();

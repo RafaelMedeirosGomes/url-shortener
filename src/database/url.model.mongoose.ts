@@ -2,13 +2,13 @@ import { Schema, model } from "mongoose";
 
 const urlSchema = new Schema({
   longUrl: { type: String, required: true, maxlength: 2048 },
-  shortUrl: { type: String, required: true, maxlength: 22, index: true },
+  uuid: { type: String, required: true, maxlength: 11, index: true },
   createdAt: { type: Date, default: Date.now },
 });
 
 export interface UrlDAO {
   longUrl: string;
-  shortUrl: string;
+  uuid: string;
   createdAt: Date;
 }
 

@@ -9,18 +9,28 @@ export default class ShortenerService implements IShortenerService {
     this.idGenerator = idGenerator;
   }
 
-  public generateShortUrl(prefix = "www.us.com/"): string {
+  public async getLongUrl(uuid: string): Promise<string | null> {
+    const entity = await UrlModel.findOne({ uuid });
+    return entity !== null ? entity.longUrl : entity;
+  }
+
+  public generateID(): string {
     const randomId = this.idGenerator.randomUUID();
-    return `${prefix}${randomId}`;
+    return randomId;
   }
 
   public async createNewEntity(url: string): Promise<UrlDTO> {
-    const shortenedUrl = this.generateShortUrl();
+    const prefix = process.env.URL_PREFIX ?? "www.us.com/";
+    const uuid = this.generateID();
 
-    const { shortUrl, longUrl, createdAt } = await UrlModel.create({
-      shortUrl: shortenedUrl,
+    const {
+      uuid: shortUrl,
+      longUrl,
+      createdAt,
+    } = await UrlModel.create({
+      uuid,
       longUrl: url,
     });
-    return { shortUrl, longUrl, expiresAt: createdAt };
+    return { shortUrl: `${prefix}${shortUrl}`, longUrl, expiresAt: createdAt };
   }
 }

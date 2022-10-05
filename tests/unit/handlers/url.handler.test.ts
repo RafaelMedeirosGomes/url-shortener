@@ -9,7 +9,7 @@ describe("error handler tests", () => {
   let res: { status: Function; json: Function };
   let next: Function;
   let serviceMock: IShortenerService;
-  const SHORT_URL = "www.us.com/12345678901";
+  const UUID = "12345678901";
   const LONG_URL = "https://github.com/RafaelMedeirosGomes/url-shortener";
   const EXPIRES_AT = new Date("10/04/2022");
   beforeAll(() => {
@@ -22,15 +22,15 @@ describe("error handler tests", () => {
     };
     next = (): void => {};
     serviceMock = {
-      generateShortUrl: jest.fn().mockImplementation(function (): string {
-        return "www.us.com/12345678901";
+      generateID: jest.fn().mockImplementation(function (): string {
+        return UUID;
       }),
       createNewEntity: jest
         .fn()
         .mockImplementation(async function (): Promise<UrlDTO> {
           return {
             longUrl: LONG_URL,
-            shortUrl: SHORT_URL,
+            shortUrl: UUID,
             expiresAt: EXPIRES_AT,
           };
         }),
@@ -49,7 +49,7 @@ describe("error handler tests", () => {
       expect(serviceMock.createNewEntity).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
-        shortUrl: SHORT_URL,
+        shortUrl: UUID,
         expiresAt: EXPIRES_AT,
       });
     });
