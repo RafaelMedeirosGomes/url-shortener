@@ -19,64 +19,32 @@ describe("error handler tests", () => {
     };
     res = { redirect: jest.fn(), status: jest.fn(() => res), json: jest.fn() };
     next = (): void => {};
-  });
-
-  describe("given a request with valid id in params", () => {
-    beforeAll(() => {
-      serviceMock = {
-        generateID: jest.fn().mockImplementation(function (): string {
-          return UUID;
+    serviceMock = {
+      generateID: jest.fn().mockImplementation(function (): string {
+        return UUID;
+      }),
+      createNewEntity: jest
+        .fn()
+        .mockImplementation(async function (): Promise<UrlDTO> {
+          return {
+            longUrl: LONG_URL,
+            shortUrl: UUID,
+            expiresAt: EXPIRES_AT,
+          };
         }),
-        createNewEntity: jest
-          .fn()
-          .mockImplementation(async function (): Promise<UrlDTO> {
-            return {
-              longUrl: LONG_URL,
-              shortUrl: UUID,
-              expiresAt: EXPIRES_AT,
-            };
-          }),
-        getLongUrl: jest.fn().mockImplementation(function (): string {
+      getLongUrl: jest
+        .fn()
+        .mockImplementationOnce(function (): null {
+          return null;
+        })
+        .mockImplementation(function (): string {
           return LONG_URL;
         }),
-      };
-      redirectHandler = new RedirectHandler(serviceMock);
-    });
-
-    it("when called should redirect", async () => {
-      await redirectHandler.redirect(
-        req as Request,
-        res as Response,
-        next as NextFunction
-      );
-
-      expect(serviceMock.getLongUrl).toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(301, LONG_URL);
-    });
+    };
+    redirectHandler = new RedirectHandler(serviceMock);
   });
 
   describe("given a request with invalid id in params", () => {
-    beforeAll(() => {
-      serviceMock = {
-        generateID: jest.fn().mockImplementation(function (): string {
-          return UUID;
-        }),
-        createNewEntity: jest
-          .fn()
-          .mockImplementation(async function (): Promise<UrlDTO> {
-            return {
-              longUrl: LONG_URL,
-              shortUrl: UUID,
-              expiresAt: EXPIRES_AT,
-            };
-          }),
-        getLongUrl: jest.fn().mockImplementation(function (): null {
-          return null;
-        }),
-      };
-      redirectHandler = new RedirectHandler(serviceMock);
-    });
-
     it("should return a Not Found code", async () => {
       await redirectHandler.redirect(
         req as Request,
@@ -86,6 +54,19 @@ describe("error handler tests", () => {
 
       expect(serviceMock.getLongUrl).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(404);
+    });
+  });
+
+  describe("given a request with valid id in params", () => {
+    it("when called should redirect", async () => {
+      await redirectHandler.redirect(
+        req as Request,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(serviceMock.getLongUrl).toHaveBeenCalled();
+      expect(res.redirect).toHaveBeenCalledWith(301, LONG_URL);
     });
   });
 });
