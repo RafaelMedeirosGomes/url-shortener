@@ -18,7 +18,7 @@ describe("error handler tests", () => {
   });
 
   describe("given an error", () => {
-    const error = new Error("Error message");
+    const error = new Error("Error generated for testing purposes");
 
     it("when called should call res.status", () => {
       callErrorHandler(error);
