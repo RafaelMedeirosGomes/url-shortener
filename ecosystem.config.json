@@ -4,6 +4,7 @@
       "name": "url-shortener",
       "script": "./dist/index.js",
       "instances": 0,
+      "cron_restart": "0 0 * * *",
       "exec_mode": "cluster",
       "watch": "."
     }
