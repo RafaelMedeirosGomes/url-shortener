@@ -17,7 +17,7 @@ export default class ShortenerService implements IShortenerService {
     const entity = await UrlModel.findOne({ uuid });
     if (entity === null) return null;
     const diffTime = Date.now() - entity.createdAt.valueOf();
-    const expiryTimeInDays = process.env.EXPIRY_TIME ?? "1";
+    const expiryTimeInDays = process.env.URL_EXPIRY_TIME ?? "1";
     const expiryTime = this.daysToMilliseconds(parseInt(expiryTimeInDays, 10));
     if (diffTime > expiryTime) {
       return null;
@@ -39,7 +39,7 @@ export default class ShortenerService implements IShortenerService {
       longUrl: url,
     });
 
-    const expiryTimeInDays = process.env.EXPIRY_TIME ?? "1";
+    const expiryTimeInDays = process.env.URL_EXPIRY_TIME ?? "1";
     const expiryTime = this.daysToMilliseconds(parseInt(expiryTimeInDays, 10));
     const expiresAt = new Date(createdAt.valueOf() + expiryTime);
 

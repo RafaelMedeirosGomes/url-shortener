@@ -10,7 +10,8 @@
     "test": "jest --watch",
     "test:coverage": "jest --coverage --watchAll",
     "prestart": "npm run build",
-    "start": "pm2 start ecosystem.config.json"
+    "start": "pm2 start ecosystem.config.json",
+    "stop": "pm2 stop url-shortener"
   },
   "keywords": [],
   "author": "Rafael Medeiros Gomes",
