@@ -2,6 +2,7 @@ import { Router } from "express";
 import UrlHandler from "../../handlers/url.handler";
 
 export default class API {
+  private readonly API_VER = "api/v1/";
   private readonly _router: Router;
   private readonly urlHandler: UrlHandler;
 
@@ -9,7 +10,7 @@ export default class API {
     this._router = router;
     this.urlHandler = urlHandler;
     this._router.post("/create", this.urlHandler.createUrl);
-    this._router.get("/ping", (_req, res) => res.status(200).send("pong"));
+    this._router.get("/", this.urlHandler.availableEndpoints(this.API_VER));
   }
 
   public get router(): Router {

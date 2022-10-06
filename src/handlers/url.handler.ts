@@ -4,6 +4,21 @@ import IShortenerService from "../services/shortener.interface";
 export default class UrlHandler {
   constructor(private readonly shortenerService: IShortenerService) {}
 
+  availableEndpoints(apiVersion: string): RequestHandler {
+    const handler: RequestHandler = async (_req, res) => {
+      const prefix = process.env.URL_PREFIX ?? "www.us.com/";
+      res.status(200).json({
+        links: [
+          {
+            href: `${prefix}${apiVersion}create`,
+            type: "POST",
+          },
+        ],
+      });
+    };
+    return handler;
+  }
+
   createUrl: RequestHandler = async (req, res, next) => {
     const { url: longUrl } = req.body;
     if (typeof longUrl !== "string") {
