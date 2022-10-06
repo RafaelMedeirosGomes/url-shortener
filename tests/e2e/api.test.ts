@@ -19,15 +19,6 @@ describe("API v1 tests", () => {
     await mongoose.disconnect();
   });
 
-  describe("/ping route", () => {
-    it("when a GET request is sent should respond with pong", async () => {
-      const response = await request(app).get(`${API_URL}/ping`);
-
-      expect(response.status).toBe(200);
-      expect(response.text).toBe("pong");
-    });
-  });
-
   describe("/create route", () => {
     const LONG_URL = "https://github.com/RafaelMedeirosGomes/url-shortener";
     describe("when a POST request is sent should", () => {
