@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 
 import app from "../../src/app";
 import UrlMongooseModel from "../../src/database/url.model.mongoose";
+import { loadConfig } from "../../src/utils/config";
 
 describe("API v1 tests", () => {
   const API_URL = "/api/v1";
@@ -22,13 +23,14 @@ describe("API v1 tests", () => {
   describe("/ route", () => {
     describe("when a GET request is sent should", () => {
       it("return available endpoints", async () => {
+        const { URL_PREFIX } = loadConfig();
         const response = await request(app).get(`${API_URL}/`);
 
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
           links: [
             {
-              href: "www.us.com/api/v1/create",
+              href: `${URL_PREFIX}api/v1/create`,
               type: "POST",
             },
           ],

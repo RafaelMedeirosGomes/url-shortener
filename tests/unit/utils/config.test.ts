@@ -54,4 +54,12 @@ describe.only("config tests", () => {
 
     expect(config.URL_EXPIRY_TIME).toBe(1);
   });
+
+  it("uses default DB_NAME", () => {
+    delete process.env.DB_NAME;
+
+    const config = loadConfig();
+
+    expect(config.DB_NAME).toBe("shortener");
+  });
 });
