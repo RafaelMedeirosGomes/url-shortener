@@ -5,7 +5,7 @@ import { createMockDocument } from "../../__mocks__/urlModel.mock";
 
 describe("Url model Mongoose adapter tests", () => {
   let createSpy: jest.SpyInstance;
-  let findOneSpy: jest.SpyInstance;
+  let findOneAndUpdateSpy: jest.SpyInstance;
   const documentMock = createMockDocument(new Date(2022, 10, 10));
 
   beforeAll(() => {
@@ -14,8 +14,8 @@ describe("Url model Mongoose adapter tests", () => {
       .mockImplementation(async function () {
         return documentMock;
       });
-    findOneSpy = jest
-      .spyOn(UrlMongooseModel, "findOne")
+    findOneAndUpdateSpy = jest
+      .spyOn(UrlMongooseModel, "findOneAndUpdate")
       .mockResolvedValue(documentMock);
   });
 
@@ -34,8 +34,11 @@ describe("Url model Mongoose adapter tests", () => {
   it("should call Mongoose.findOne when searching a document", async () => {
     const model = new UrlModel();
 
-    await model.findByUUID(UUID);
+    await model.findByUUIDAndIncrementCounter(UUID);
 
-    expect(findOneSpy).toHaveBeenCalledWith({ uuid: UUID });
+    expect(findOneAndUpdateSpy).toHaveBeenCalledWith(
+      { uuid: UUID },
+      { $inc: { counter: 1 } }
+    );
   });
 });

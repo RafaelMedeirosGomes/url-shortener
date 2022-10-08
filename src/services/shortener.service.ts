@@ -20,7 +20,7 @@ export default class ShortenerService implements IShortenerService {
   }
 
   public async getEntity(uuid: string): Promise<UrlDTO | null> {
-    const entity = await this.urlModel.findByUUID(uuid);
+    const entity = await this.urlModel.findByUUIDAndIncrementCounter(uuid);
     if (entity === null) return null;
     const prefix = this.options.urlPrefix;
     const { longUrl } = entity;

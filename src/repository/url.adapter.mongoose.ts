@@ -13,8 +13,13 @@ export default class UrlModel implements IUrlModel {
     return newDocument;
   }
 
-  async findByUUID(value: UrlDAO["uuid"]): Promise<Required<UrlDAO> | null> {
-    const document = await this.mongooseModel.findOne({ uuid: value });
+  async findByUUIDAndIncrementCounter(
+    uuid: UrlDAO["uuid"]
+  ): Promise<Required<UrlDAO> | null> {
+    const document = await this.mongooseModel.findOneAndUpdate(
+      { uuid },
+      { $inc: { counter: 1 } }
+    );
     return document;
   }
 }
