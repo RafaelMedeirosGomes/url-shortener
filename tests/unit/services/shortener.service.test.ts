@@ -1,7 +1,7 @@
 import ShortenerService, {
   Options,
 } from "../../../src/services/shortener.service";
-import FactoryOfUrlModelMock, { LONG_URL } from "../../__mocks__/urlModel.mock";
+import factoryOfUrlModelMock, { LONG_URL } from "../../__mocks__/urlModel.mock";
 import idGeneratorMock, { UUID } from "../../__mocks__/idGenerator.mock";
 
 describe("shortener service tests", () => {
@@ -23,7 +23,7 @@ describe("shortener service tests", () => {
   });
 
   describe("when generateID is called", () => {
-    const modelMock = FactoryOfUrlModelMock(EARLIER_TODAY);
+    const modelMock = factoryOfUrlModelMock(EARLIER_TODAY);
     const shortenerService = new ShortenerService(
       modelMock,
       idGeneratorMock,
@@ -45,7 +45,7 @@ describe("shortener service tests", () => {
 
   describe("when getLongUrl is called", () => {
     it("if db doesn't find doc should return null", async () => {
-      const modelMock = FactoryOfUrlModelMock(EARLIER_TODAY, true);
+      const modelMock = factoryOfUrlModelMock(EARLIER_TODAY, true);
       const shortenerService = new ShortenerService(
         modelMock,
         idGeneratorMock,
@@ -58,7 +58,7 @@ describe("shortener service tests", () => {
     });
 
     it("if db finds old doc should return null", async () => {
-      const modelMock = FactoryOfUrlModelMock(FEW_DAYS_AGO, false);
+      const modelMock = factoryOfUrlModelMock(FEW_DAYS_AGO, false);
       const shortenerService = new ShortenerService(
         modelMock,
         idGeneratorMock,
@@ -71,7 +71,7 @@ describe("shortener service tests", () => {
     });
 
     it("if db finds doc should return its url", async () => {
-      const modelMock = FactoryOfUrlModelMock(EARLIER_TODAY, false);
+      const modelMock = factoryOfUrlModelMock(EARLIER_TODAY, false);
       const shortenerService = new ShortenerService(
         modelMock,
         idGeneratorMock,
@@ -86,7 +86,7 @@ describe("shortener service tests", () => {
 
   describe("when createNewEntity is called", () => {
     it("should return expected object", async () => {
-      const modelMock = FactoryOfUrlModelMock(NOW, false);
+      const modelMock = factoryOfUrlModelMock(NOW, false);
       const shortenerService = new ShortenerService(
         modelMock,
         idGeneratorMock,

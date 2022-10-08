@@ -4,12 +4,15 @@ import { UUID } from "./idGenerator.mock";
 
 const LONG_URL = "https://github.com/RafaelMedeirosGomes/url-shortener";
 
-function FactoryOfUrlModelMock(createdAt: Date, notFound = false): IUrlModel {
-  const mockDocument: Required<UrlDAO> = {
+function createMockDocument(createdAt: Date): Required<UrlDAO> {
+  return {
     uuid: UUID,
     longUrl: LONG_URL,
     createdAt,
   };
+}
+function factoryOfUrlModelMock(createdAt: Date, notFound = false): IUrlModel {
+  const mockDocument = createMockDocument(createdAt);
 
   const urlModelMock: IUrlModel = {
     create: async function (): Promise<Required<UrlDAO>> {
@@ -24,5 +27,5 @@ function FactoryOfUrlModelMock(createdAt: Date, notFound = false): IUrlModel {
   return urlModelMock;
 }
 
-export { LONG_URL };
-export default FactoryOfUrlModelMock;
+export { LONG_URL, createMockDocument };
+export default factoryOfUrlModelMock;
