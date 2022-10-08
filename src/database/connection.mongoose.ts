@@ -10,4 +10,4 @@ async function connection(): Promise<Mongoose> {
   return conn;
 }
 
-export default connection();
+export default connection;
