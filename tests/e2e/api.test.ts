@@ -19,6 +19,24 @@ describe("API v1 tests", () => {
     await mongoose.disconnect();
   });
 
+  describe("/ route", () => {
+    describe("when a GET request is sent should", () => {
+      it("return available endpoints", async () => {
+        const response = await request(app).get(`${API_URL}/`);
+
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+          links: [
+            {
+              href: "www.us.com/api/v1/create",
+              type: "POST",
+            },
+          ],
+        });
+      });
+    });
+  });
+
   describe("/create route", () => {
     const LONG_URL = "https://github.com/RafaelMedeirosGomes/url-shortener";
     describe("when a POST request is sent should", () => {
