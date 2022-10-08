@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import UrlHandler, { UrlDTO } from "../../../src/handlers/url.handler";
 import IShortenerService from "../../../src/services/shortener.interface";
 
-describe("error handler tests", () => {
+describe("url handler tests", () => {
   let urlHandler: UrlHandler;
   let req: {};
   let res: { status: Function; json: Function };

@@ -4,7 +4,7 @@ import RedirectHandler from "../../../src/handlers/redirect.handler";
 import { UrlDTO } from "../../../src/handlers/url.handler";
 import IShortenerService from "../../../src/services/shortener.interface";
 
-describe("error handler tests", () => {
+describe("redirect handler tests", () => {
   let redirectHandler: RedirectHandler;
   let req: {};
   let res: { redirect: Function; status: Function; json: Function };
