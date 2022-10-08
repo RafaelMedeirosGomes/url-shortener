@@ -39,7 +39,6 @@ The API is pretty simple right now, it contains
 1. Cache GET requests for the lifetime of the URL
 2. Addition of a clicks counter for the shortened URL
 3. Stress tests
-4. Raise test coverage
 
 ## Technology stack
 
