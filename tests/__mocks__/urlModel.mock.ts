@@ -9,6 +9,7 @@ function createMockDocument(createdAt: Date): Required<UrlDAO> {
     uuid: UUID,
     longUrl: LONG_URL,
     createdAt,
+    counter: 0,
   };
 }
 function factoryOfUrlModelMock(createdAt: Date, notFound = false): IUrlModel {
@@ -18,10 +19,11 @@ function factoryOfUrlModelMock(createdAt: Date, notFound = false): IUrlModel {
     create: async function (): Promise<Required<UrlDAO>> {
       return mockDocument;
     },
-    findByUUID: async function (): Promise<Required<UrlDAO> | null> {
-      if (notFound) return null;
-      return mockDocument;
-    },
+    findByUUIDAndIncrementCounter:
+      async function (): Promise<Required<UrlDAO> | null> {
+        if (notFound) return null;
+        return mockDocument;
+      },
   };
 
   return urlModelMock;
