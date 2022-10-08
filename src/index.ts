@@ -1,11 +1,9 @@
-import "dotenv/config";
-
 import connection from "./database/connection.mongoose";
 import app from "./app";
+import { loadConfig } from "./utils/config";
 
 async function main(): Promise<void> {
-  const SERVER_PORT = process.env.SERVER_PORT ?? "5000";
-
+  const { SERVER_PORT } = loadConfig();
   const server = app.listen(SERVER_PORT, () => {
     console.log(`Server online on port ${SERVER_PORT}`);
   });

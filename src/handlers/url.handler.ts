@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { loadConfig } from "../utils/config";
 import IShortenerService from "../services/shortener.interface";
 
 export default class UrlHandler {
@@ -6,7 +7,8 @@ export default class UrlHandler {
 
   availableEndpoints(apiVersion: string): RequestHandler {
     const handler: RequestHandler = async (_req, res) => {
-      const prefix = process.env.URL_PREFIX ?? "www.us.com/";
+      const { URL_PREFIX } = loadConfig();
+      const prefix = URL_PREFIX;
       res.status(200).json({
         links: [
           {

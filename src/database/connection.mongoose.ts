@@ -1,13 +1,11 @@
 import { connect, Mongoose } from "mongoose";
+import { loadConfig } from "../utils/config";
 
 async function connection(): Promise<Mongoose> {
-  const hostURI = process.env.DB_URI ?? "mongodb://localhost:27017";
-  const username = process.env.DB_USER;
-  const password = process.env.DB_PASS;
-  const dbName = process.env.DB_NAME;
-  const conn = await connect(hostURI, {
-    auth: { username, password },
-    dbName,
+  const { DB_URI, DB_USER, DB_PASS, DB_NAME } = loadConfig();
+  const conn = await connect(DB_URI, {
+    auth: { username: DB_USER, password: DB_PASS },
+    dbName: DB_NAME,
   });
   return conn;
 }
