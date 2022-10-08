@@ -38,7 +38,7 @@ describe("url handler tests", () => {
             expiresAt: EXPIRES_AT,
           };
         }),
-      getLongUrl: jest.fn().mockImplementation(function (): string {
+      getEntity: jest.fn().mockImplementation(function (): string {
         return LONG_URL;
       }),
     };
