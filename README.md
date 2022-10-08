@@ -36,7 +36,7 @@ The API is pretty simple right now, it contains
 
 ## Next steps
 
-1. Addition of a clicks counter for the shortened URL
+1. e2e test for click counter
 2. Stress tests
 
 ## Technology stack
