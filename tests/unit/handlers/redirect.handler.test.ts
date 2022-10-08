@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import RedirectHandler from "../../../src/handlers/redirect.handler";
 import { UUID } from "../../__mocks__/idGenerator.mock";
-import factoryOfShortenerServiceMock from "../../__mocks__/shortenerService.mock";
+import mockFactory from "../../__mocks__/shortenerService.mock";
 import { LONG_URL } from "../../__mocks__/urlModel.mock";
 
 describe("redirect handler tests", () => {
@@ -37,7 +37,7 @@ describe("redirect handler tests", () => {
   });
 
   describe("when it doesn't find resource", () => {
-    const serviceMock = factoryOfShortenerServiceMock(VALID_EXPIRE_DATE, true);
+    const serviceMock = mockFactory(VALID_EXPIRE_DATE, true);
     const redirectHandler = new RedirectHandler(serviceMock);
 
     it("should return a Not Found code", async () => {
@@ -52,7 +52,7 @@ describe("redirect handler tests", () => {
   });
 
   describe("when it finds expired resource", () => {
-    const serviceMock = factoryOfShortenerServiceMock(INVALID_EXPIRE_DATE);
+    const serviceMock = mockFactory(INVALID_EXPIRE_DATE);
     const redirectHandler = new RedirectHandler(serviceMock);
 
     it("should return a Gone code", async () => {
@@ -68,7 +68,7 @@ describe("redirect handler tests", () => {
   });
 
   describe("when it finds valid resource", () => {
-    const serviceMock = factoryOfShortenerServiceMock(VALID_EXPIRE_DATE);
+    const serviceMock = mockFactory(VALID_EXPIRE_DATE);
     const redirectHandler = new RedirectHandler(serviceMock);
 
     it("should set header with expiration time", async () => {
