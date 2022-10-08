@@ -3,7 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 
 import app from "../../src/app";
-import UrlModel from "../../src/database/url.model.mongoose";
+import UrlMongooseModel from "../../src/database/url.model.mongoose";
 
 describe("API v1 tests", () => {
   const API_URL = "/api/v1";
@@ -32,7 +32,7 @@ describe("API v1 tests", () => {
         expect(response.body.expiresAt).toBeDefined();
 
         const uuid = response.body.shortUrl.split("/")[1];
-        const document = await UrlModel.findOne({
+        const document = await UrlMongooseModel.findOne({
           uuid,
         });
 

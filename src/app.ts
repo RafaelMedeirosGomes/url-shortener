@@ -6,13 +6,16 @@ import APIRouter from "./api/v1";
 import UrlHandler from "./handlers/url.handler";
 import ShortenerService from "./services/shortener.service";
 import RedirectHandler from "./handlers/redirect.handler";
+import UrlModel from "./repository/url.adapter.mongoose";
 
 const app = express();
 const uniqueIdService = new ShortUniqueId({ length: 11 });
-const shortenerService = new ShortenerService(uniqueIdService);
+const urlModel = new UrlModel();
+const shortenerService = new ShortenerService(urlModel, uniqueIdService);
 const urlHandler = new UrlHandler(shortenerService);
 const redirectHandler = new RedirectHandler(shortenerService);
 const apiRouter = new APIRouter(express.Router(), urlHandler);
+
 app.use(express.json());
 app.use("/api/v1", apiRouter.router);
 app.get("/:uuid", redirectHandler.redirect);
