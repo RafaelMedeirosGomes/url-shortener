@@ -38,9 +38,9 @@ The API is pretty simple right now, it contains
 
 1. Cache GET requests for the lifetime of the URL
 2. Addition of a clicks counter for the shortened URL
-3. Decoupling of object representations and Mongoose data models
-4. Stress tests
-5. Clean up of environment variables: Right now they are permeating the application, should refactor the code to isolate this global dependency
+3. Stress tests
+4. Clean up of environment variables: Right now they are permeating the application, should refactor the code to isolate this global dependency
+5. Raise test coverage
 
 ## Technology stack
 
