@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import UrlDAO from "./url.dao";
 
 const urlSchema = new Schema({
   longUrl: { type: String, required: true, maxlength: 2048 },
@@ -6,12 +7,6 @@ const urlSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export interface UrlDAO {
-  longUrl: string;
-  uuid: string;
-  createdAt: Date;
-}
+const UrlMongooseModel = model<Required<UrlDAO>>("URL", urlSchema);
 
-const UrlModel = model<UrlDAO>("URL", urlSchema);
-
-export default UrlModel;
+export default UrlMongooseModel;

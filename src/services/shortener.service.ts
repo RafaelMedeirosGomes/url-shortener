@@ -1,20 +1,19 @@
-import UrlModel from "../database/url.model.mongoose";
 import { UrlDTO } from "../handlers/url.handler";
+import IUrlModel from "../repository/url.interface";
 import IShortenerService from "./shortener.interface";
 
 export default class ShortenerService implements IShortenerService {
-  private readonly idGenerator: { randomUUID: () => string };
-
-  constructor(idGenerator: { randomUUID: () => string }) {
-    this.idGenerator = idGenerator;
-  }
+  constructor(
+    private readonly urlModel: IUrlModel,
+    private readonly idGenerator: { randomUUID: () => string }
+  ) {}
 
   private daysToMilliseconds(days: number): number {
     return days * 24 * 60 * 60 * 1000;
   }
 
   public async getLongUrl(uuid: string): Promise<string | null> {
-    const entity = await UrlModel.findOne({ uuid });
+    const entity = await this.urlModel.findByUUID(uuid);
     if (entity === null) return null;
     const diffTime = Date.now() - entity.createdAt.valueOf();
     const expiryTimeInDays = process.env.URL_EXPIRY_TIME ?? "1";
@@ -34,7 +33,7 @@ export default class ShortenerService implements IShortenerService {
     const prefix = process.env.URL_PREFIX ?? "www.us.com/";
     const generatedId = this.generateID();
 
-    const { uuid, longUrl, createdAt } = await UrlModel.create({
+    const { uuid, longUrl, createdAt } = await this.urlModel.create({
       uuid: generatedId,
       longUrl: url,
     });
