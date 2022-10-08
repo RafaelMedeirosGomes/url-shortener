@@ -52,12 +52,12 @@ describe("shortener service tests", () => {
         options
       );
 
-      const url = await shortenerService.getLongUrl(UUID);
+      const entity = await shortenerService.getEntity(UUID);
 
-      expect(url).toBeNull();
+      expect(entity).toBeNull();
     });
 
-    it("if db finds old doc should return null", async () => {
+    it("if db finds old doc should return it", async () => {
       const modelMock = factoryOfUrlModelMock(FEW_DAYS_AGO, false);
       const shortenerService = new ShortenerService(
         modelMock,
@@ -65,22 +65,26 @@ describe("shortener service tests", () => {
         options
       );
 
-      const url = await shortenerService.getLongUrl(UUID);
+      const entity = await shortenerService.getEntity(UUID);
 
-      expect(url).toBeNull();
+      expect(entity).not.toBeNull();
     });
 
-    it("if db finds doc should return its url", async () => {
-      const modelMock = factoryOfUrlModelMock(EARLIER_TODAY, false);
+    it("if db finds doc should return it", async () => {
+      const modelMock = factoryOfUrlModelMock(NOW, false);
       const shortenerService = new ShortenerService(
         modelMock,
         idGeneratorMock,
         options
       );
 
-      const url = await shortenerService.getLongUrl(UUID);
+      const entity = await shortenerService.getEntity(UUID);
 
-      expect(typeof url).toBe("string");
+      expect(entity).toEqual({
+        shortUrl: options.urlPrefix.concat(UUID),
+        longUrl: LONG_URL,
+        expiresAt: CREATED_NOW_EXPIRES_AT,
+      });
     });
   });
 
